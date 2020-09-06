@@ -4,22 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="styles/layout.css">
+    <!-- <link rel="stylesheet" href="styles/layout.css">
+    <link rel="stylesheet" href="styles/base.css"> -->
+
 </head>
 <body>
-    <form action="" method="post">
-        <label for="">
-            <input type="text">
+    <form action="/searches/show" method="POST" >
+        <label >
+            <input type="text" name='search' value="">
         </label>
-        <label for="">
+        <br>
+        <label >
             <span>Author:</span> 
-            <input type="radio">
+            <input type="checkbox" name='author' value="author">
         </label>
-        <label for="">
-            <span>title:</span> 
-            <input type="radio">
+        <br>
+        <label >
+            <span>Title:</span> 
+            <input type="checkbox" name='title' value="title">
         </label>
-        <button>Search the googleBooks API</button>
+        <button type="submit">Search the googleBooks API</button>
     </form>
 </body>
 </html>
