@@ -8,9 +8,12 @@ const app = express();
 app.use(express.static('./public'));
 app.set('view engine','ejs');
 
-app.get('/',(req,res)=>{
+app.get('/test',(req,res)=>{
     res.render('pages/index');
-})
+});
+app.get('/searches/new',(req,res)=>{
+    res.render('pages/searches/new');
+});
 
 app.listen(PORT,()=>{
     console.log(`sever is up: PORT ${PORT}`);
