@@ -1,3 +1,17 @@
-h1{
-    background-color: fuchsia;
+body,html{
+    width: 100%;
+}
+main{
+    width: 100%;
+}
+header ,h2 {
+    width: 100%;
+    background-color: black;
+    color: white;
+    padding: 2% 0;
+}
+h2 {
+    background-color: grey;
+    text-align: center;
+ 
 }
