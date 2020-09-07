@@ -6,6 +6,8 @@ const superAgent = require('superagent');
 const app = express();
 
 app.use(express.static('./public'));
+app.use(express.static('./public/styles'));
+
 app.set('view engine', 'ejs');
 
 app.use(express.urlencoded());
@@ -21,52 +23,25 @@ app.get('/main', (req, res) => {
 
 });
 
-// app.get('/searches/new',(req,res)=>{
-//   res.render('./pages/searches/new');
-
-// });
 
 /*Render the data from the form */
 app.post('/searches/show',(req,res)=>{
 /*body for post -- get for query */
-  let book = req.body.search;
-  console.log(book); /*the search we made*/
-  // let titleOrAuthor = req.query.titleOrAuthor;
-  // console.log(titleOrAuthor);
-
-  let url =  `https://www.googleapis.com/books/v1/volumes?q=${book}+intitle`;
+  let book = req.body.hamza;
+  let titleOrAuthor = req.body.titleOrAuthor;
+  let url =  `https://www.googleapis.com/books/v1/volumes?q=${book}+${titleOrAuthor}:${book}`;
 
   superAgent.get(url).then(result =>{
+    console.log(url);
     let bookArray = result.body.items.map(book =>{
       return new BookWiki(book);
     });
-    res.send(bookArray); /*Render 10 books as Array-of-objects. |-----| If map was empty it will give us 10 null objects*/
+    res.render('pages/searches/show',{bookArr:bookArray}); /*Render 10 books as Array-of-objects. |-----| If map was empty it will give us 10 null objects*/
   });
 
 
-
-
-
-
-
-
-  // superAgent.get(url).then(result =>{
-  //   let bodyData = result.body.items.map(book =>{
-  //     return new BookWiki(book);
-  //   });
-  //   // console.log(bodyData);
-  //   res.render('pages/searches/show',{booksArr: bodyData});
-  //   // res.send(bodyData);
-  // });
-
-  // console.log(bodyData);
-  // res.render('pages/searches/show',{booksArr: bodyData});
 });
 
-// console.log(req.body,'req.body');
-// console.log(res.body,'res.body');
-// console.log(req.query,'req.query');/*Worked*/
-// console.log(res.query,'res.query');
 
 // let allBook = [];
 function BookWiki(data) {
