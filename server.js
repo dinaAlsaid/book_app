@@ -15,30 +15,31 @@ app.use(express.urlencoded());
 /*Main route*/
 app.get('/', (req, res) => {
   // res.status(200).send('work on main route');
+  res.render('pages/index');
+});
+
+app.get('/searches/new', (req, res) => {
   res.render('pages/searches/new');
 });
 
-app.get('/main', (req, res) => {
-  res.render('pages/index');
-
-});
 
 
 /*Render the data from the form */
-app.post('/searches/show',(req,res)=>{
-/*body for post -- get for query */
+app.post('/searches/show', (req, res) => {
+  /*body for post -- get for query */
   let book = req.body.hamza;
   let titleOrAuthor = req.body.titleOrAuthor;
-  let url =  `https://www.googleapis.com/books/v1/volumes?q=${book}+${titleOrAuthor}:${book}`;
+  let url = `https://www.googleapis.com/books/v1/volumes?q=${book}+${titleOrAuthor}:${book}`;
 
-  superAgent.get(url).then(result =>{
-    console.log(url);
-    let bookArray = result.body.items.map(book =>{
+  superAgent.get(url)
+  .then(result => {
+    let bookArray = result.body.items.map(book => {
       return new BookWiki(book);
     });
-    res.render('pages/searches/show',{bookArr:bookArray}); /*Render 10 books as Array-of-objects. |-----| If map was empty it will give us 10 null objects*/
-  });
-
+    res.render('pages/searches/show', { bookArr: bookArray }); /*Render 10 books as Array-of-objects. |-----| If map was empty it will give us 10 null objects*/
+  })
+  .catch(error => {
+    errorHandler(req, res)})
 
 });
 
@@ -60,6 +61,15 @@ BookWiki.prototype.protocol = function (link) {
   return imageLink;
 };
 
+
+function errorHandler(request, response) {
+  response.render('pages/error')
+}
+
+
+
 app.listen(PORT, () => {
   console.log(`sever is up: PORT ${PORT}`);
 });
+
+app.use(errorHandler)
