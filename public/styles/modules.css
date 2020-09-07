@@ -5,9 +5,18 @@
     padding:10px;
     text-align:center;
     box-sizing: border-box;
+    box-shadow: 1px 1px 5px darkgray;
+    height: fit-content;
+
+}
+.book-desc{
+    margin: 10px 0;
+    height: 100px;
+    overflow: scroll;
 
 }
 button{
+    padding: 10px;
     background-color: black;
-    color: wheat;
+    color: white;
 }
