@@ -21,17 +21,30 @@ app.get('/', (req, res) => {
   let sql = `SELECT * FROM books;`
   client.query(sql)
   .then(results => {
-    console.log(results.rows);
     res.render('pages/index',{savedArr:results.rows})
   })
-  .catch(error => console.log(error))
+  .catch(error => {
+    errorHandler(req, res)})
 });
 
+app.get('/book/:id', viewBook);
 app.get('/searches/new', (req, res) => {
   res.render('pages/searches/new');
 });
 
+function viewBook(req,res){
+  let sql = 'SELECT * FROM books WHERE id=$1;'
+  let bookId= req.params.id;
+  console.log(bookId);
 
+  let safeValues = [bookId];
+  client.query(sql,safeValues).then((results)=>{
+    console.log(bookId);
+    res.render('detail',{book:results})
+  })
+  .catch(error => {
+    errorHandler(req, res)})
+}
 
 /*Render the data from the form */
 app.post('/searches/show', (req, res) => {
@@ -73,6 +86,7 @@ BookWiki.prototype.protocol = function (link) {
   return imageLink;
 };
 
+app.use(errorHandler);
 
 function errorHandler(request, response) {
   response.render('pages/error')
@@ -89,4 +103,3 @@ client.connect()
 
 
 
-app.use(errorHandler)

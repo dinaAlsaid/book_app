@@ -18,8 +18,8 @@
             <img src=<%= b.image_url%>>
             <h2 class="book-title"><%= b.title%></h2>
             <p class="book-author"><%= b.author%></p>
-            <button>Select this Book</button>
-            </div>
+            <button href="/book/<%= b.id%>">View details</button>
+        </div>
       <% }) %>  
 </body>
 </html>
