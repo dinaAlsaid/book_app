@@ -1,7 +1,7 @@
 'use strict';
 require('dotenv').config();
 const express = require('express');
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 3000;
 const superAgent = require('superagent');
 const app = express();
 
@@ -30,20 +30,17 @@ app.get('/main', (req, res) => {
 app.post('/searches/show',(req,res)=>{
 /*body for post -- get for query */
   let book = req.body.search;
-  // let title = req.query.title;
-  // let author = req.body.author;
-  // let googleAPI = process.env.GEOCODE_API_KEY;
+  console.log(book); /*the search we made*/
+  // let titleOrAuthor = req.query.titleOrAuthor;
+  // console.log(titleOrAuthor);
 
   let url =  `https://www.googleapis.com/books/v1/volumes?q=${book}+intitle`;
-  console.log(url);
 
   superAgent.get(url).then(result =>{
-    let bodyData = result.body.items.map(book =>{
+    let bookArray = result.body.items.map(book =>{
       return new BookWiki(book);
     });
-    // console.log(bodyData);
-    res.render('pages/searches/show',{booksArr: bodyData});
-    // res.send(bodyData);
+    res.send(bookArray); /*Render 10 books as Array-of-objects. |-----| If map was empty it will give us 10 null objects*/
   });
 
 
@@ -51,29 +48,42 @@ app.post('/searches/show',(req,res)=>{
 
 
 
-  // console.log(req.body,'req.body');
-  // console.log(res.body,'res.body');
-  // console.log(req.query,'req.query');/*Worked*/
-  // console.log(res.query,'res.query');
 
+
+  // superAgent.get(url).then(result =>{
+  //   let bodyData = result.body.items.map(book =>{
+  //     return new BookWiki(book);
+  //   });
+  //   // console.log(bodyData);
+  //   res.render('pages/searches/show',{booksArr: bodyData});
+  //   // res.send(bodyData);
+  // });
+
+  // console.log(bodyData);
+  // res.render('pages/searches/show',{booksArr: bodyData});
 });
+
+// console.log(req.body,'req.body');
+// console.log(res.body,'res.body');
+// console.log(req.query,'req.query');/*Worked*/
+// console.log(res.query,'res.query');
 
 // let allBook = [];
 function BookWiki(data) {
   this.Book_Title = data.volumeInfo.title;
   this.Author_Name = data.volumeInfo.authors;
   this.Description = data.volumeInfo.description;
-  this.Image = /*this.protocol(*/data.volumeInfo.imageLinks.smallThumbnail/*)*/ || `https://i.imgur.com/J5LVHEL.jpg`;
+  this.Image = this.protocol(data.volumeInfo.imageLinks.smallThumbnail) || `https://i.imgur.com/J5LVHEL.jpg`;
   // BookWiki.push(this);
 }
 /*If image has http retrun https */
-// BookWiki.prototype.protocol = function (link) {
-//   let imageLink = link;
-//   if (imageLink.slice(0, 5) !== 'https') {
-//     imageLink = 'https' + imageLink.slice(4);
-//   }
-//   return imageLink;
-// };
+BookWiki.prototype.protocol = function (link) {
+  let imageLink = link;
+  if (imageLink.slice(0, 5) !== 'https') {
+    imageLink = 'https' + imageLink.slice(4);
+  }
+  return imageLink;
+};
 
 app.listen(PORT, () => {
   console.log(`sever is up: PORT ${PORT}`);

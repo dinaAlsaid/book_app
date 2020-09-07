@@ -11,17 +11,17 @@
 <body>
     <form action="/searches/show" method="POST" >
         <label >
-            <input type="text" name='search' value="">
+            <input type="text" name="a">
         </label>
         <br>
         <label >
             <span>Author:</span> 
-            <input type="checkbox" name='author' value="author">
+            <input type="radio" name='titleOrAuthor' value="inauthor">
         </label>
         <br>
         <label >
             <span>Title:</span> 
-            <input type="checkbox" name='title' value="title">
+            <input type="radio" name='titleOrAuthor' value="intitle">
         </label>
         <button type="submit">Search the googleBooks API</button>
     </form>
