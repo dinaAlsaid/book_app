@@ -4,6 +4,9 @@ const express = require('express');
 const PORT = process.env.PORT || 3000;
 const superAgent = require('superagent');
 const app = express();
+const pg = require('pg')
+const client = new pg.Client(process.env.DATABASE_URL);
+
 
 app.use(express.static('./public'));
 app.use(express.static('./public/styles'));
@@ -15,7 +18,13 @@ app.use(express.urlencoded());
 /*Main route*/
 app.get('/', (req, res) => {
   // res.status(200).send('work on main route');
-  res.render('pages/index');
+  let sql = `SELECT * FROM books;`
+  client.query(sql)
+  .then(results => {
+    console.log(results.rows);
+    res.render('pages/index',{savedArr:results.rows})
+  })
+  .catch(error => console.log(error))
 });
 
 app.get('/searches/new', (req, res) => {
@@ -50,6 +59,9 @@ function BookWiki(data) {
   this.Author_Name = data.volumeInfo.authors;
   this.Description = data.volumeInfo.description;
   this.Image = this.protocol(data.volumeInfo.imageLinks.smallThumbnail) || `https://i.imgur.com/J5LVHEL.jpg`;
+  this.isbn = 'ISBN_13 ' + data.volumeInfo.industryIdentifiers[0].identifier
+  this.categories = data.volumeInfo.categories
+
   // BookWiki.push(this);
 }
 /*If image has http retrun https */
@@ -68,8 +80,13 @@ function errorHandler(request, response) {
 
 
 
-app.listen(PORT, () => {
-  console.log(`sever is up: PORT ${PORT}`);
-});
+client.connect()
+    .then(() => {
+        app.listen(PORT, () =>
+            console.log(`listening on ${PORT}`)
+        );
+    })
+
+
 
 app.use(errorHandler)
