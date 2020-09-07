@@ -7,53 +7,73 @@ const app = express();
 const pg = require('pg')
 const client = new pg.Client(process.env.DATABASE_URL);
 
-
+app.set('view engine', 'ejs');
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static('./public'));
 app.use(express.static('./public/styles'));
 
-app.set('view engine', 'ejs');
+app.get('/', mainRouteHandler);
+app.get('/searches/new', searchesNewHandler);
+app.post('/searches/show', searchesShowHandler);
+app.get('/book/:id', viewBook);
+app.use(errorHandler);
 
-app.use(express.urlencoded());
 
-/*Main route*/
-app.get('/', (req, res) => {
-  // res.status(200).send('work on main route');
+
+// call back functions
+function mainRouteHandler(req, res) {
   let sql = `SELECT * FROM books;`
   client.query(sql)
-  .then(results => {
-    console.log(results.rows);
-    res.render('pages/index',{savedArr:results.rows})
-  })
-  .catch(error => console.log(error))
-});
+    .then(results => {
+      res.render('pages/index', { savedArr: results.rows })
+    })
+    .catch(error => {
+      errorHandler(req, res)
+    })
+}
 
-app.get('/searches/new', (req, res) => {
+function searchesNewHandler(req, res) {
   res.render('pages/searches/new');
-});
+}
 
+function viewBook(req, res) {
+  let bookId = req.params.id;
+  let safeValues = [bookId];
+  let sql = 'SELECT * FROM books WHERE id=($1);'
+  console.log(bookId);
 
+  client.query(sql, safeValues).then((results) => {
+    console.log(bookId);
+    res.render('pages/books/detail', { book: results })
+  })
+    .catch(error => {
+      errorHandler(req, res)
+    })
+}
 
-/*Render the data from the form */
-app.post('/searches/show', (req, res) => {
-  /*body for post -- get for query */
+function searchesShowHandler(req, res) {
   let book = req.body.hamza;
   let titleOrAuthor = req.body.titleOrAuthor;
   let url = `https://www.googleapis.com/books/v1/volumes?q=${book}+${titleOrAuthor}:${book}`;
 
   superAgent.get(url)
-  .then(result => {
-    let bookArray = result.body.items.map(book => {
-      return new BookWiki(book);
-    });
-    res.render('pages/searches/show', { bookArr: bookArray }); /*Render 10 books as Array-of-objects. |-----| If map was empty it will give us 10 null objects*/
-  })
-  .catch(error => {
-    errorHandler(req, res)})
+    .then(result => {
+      let bookArray = result.body.items.map(book => {
+        return new BookWiki(book);
+      });
+      res.render('pages/searches/show', { bookArr: bookArray }); /*Render 10 books as Array-of-objects. |-----| If map was empty it will give us 10 null objects*/
+    })
+    .catch(error => {
+      errorHandler(req, res)
+    })
 
-});
+}
 
+function errorHandler(request, response) {
+  response.render('pages/error')
+}
 
-// let allBook = [];
+//constructor
 function BookWiki(data) {
   this.Book_Title = data.volumeInfo.title;
   this.Author_Name = data.volumeInfo.authors;
@@ -62,7 +82,6 @@ function BookWiki(data) {
   this.isbn = 'ISBN_13 ' + data.volumeInfo.industryIdentifiers[0].identifier
   this.categories = data.volumeInfo.categories
 
-  // BookWiki.push(this);
 }
 /*If image has http retrun https */
 BookWiki.prototype.protocol = function (link) {
@@ -74,19 +93,12 @@ BookWiki.prototype.protocol = function (link) {
 };
 
 
-function errorHandler(request, response) {
-  response.render('pages/error')
-}
-
-
-
 client.connect()
-    .then(() => {
-        app.listen(PORT, () =>
-            console.log(`listening on ${PORT}`)
-        );
-    })
+  .then(() => {
+    app.listen(PORT, () =>
+      console.log(`listening on ${PORT}`)
+    );
+  })
 
 
 
-app.use(errorHandler)

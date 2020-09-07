@@ -1,29 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <!-- <link rel="stylesheet" href="styles/layout.css">
-    <link rel="stylesheet" href="styles/base.css"> -->
-
+    <%- include('../../layout/head')%>
 </head>
 <body>
-    <form action="/searches/show" method="POST" >
-        <label >
-            <input type="text" name="hamza">
-        </label>
-        <br>
-        <label >
-            <span>Author:</span> 
-            <input type="radio" name='titleOrAuthor' value="inauthor">
-        </label>
-        <br>
-        <label >
-            <span>Title:</span> 
-            <input type="radio" name='titleOrAuthor' value="intitle">
-        </label>
-        <button type="submit">Search the googleBooks API</button>
-    </form>
+    <header>
+        <h1>Best Books!</h1>
+    </header>
+    <main>
+        <form action="/searches/show" method="POST" >
+            <label >
+                <input type="text" name="hamza">
+            </label>
+            <br>
+            <label >
+                <span>Author:</span> 
+                <input type="radio" name='titleOrAuthor' value="inauthor">
+            </label>
+            <br>
+            <label >
+                <span>Title:</span> 
+                <input type="radio" name='titleOrAuthor' value="intitle">
+            </label>
+            <button type="submit">Search the googleBooks API</button>
+        </form>
+    
+    </main>
 </body>
 </html>
