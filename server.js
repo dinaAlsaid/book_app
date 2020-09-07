@@ -6,6 +6,8 @@ const superAgent = require('superagent');
 const app = express();
 
 app.use(express.static('./public'));
+app.use(express.static('./public/styles'));
+
 app.set('view engine', 'ejs');
 
 app.use(express.urlencoded());
@@ -13,60 +15,34 @@ app.use(express.urlencoded());
 /*Main route*/
 app.get('/', (req, res) => {
   // res.status(200).send('work on main route');
+  res.render('pages/index');
+});
+
+app.get('/searches/new', (req, res) => {
   res.render('pages/searches/new');
 });
 
-app.get('/main', (req, res) => {
-  res.render('pages/index');
 
-});
-
-// app.get('/searches/new',(req,res)=>{
-//   res.render('./pages/searches/new');
-
-// });
 
 /*Render the data from the form */
-app.post('/searches/show',(req,res)=>{
-/*body for post -- get for query */
-  let book = req.body.search;
-  console.log(book); /*the search we made*/
-  // let titleOrAuthor = req.query.titleOrAuthor;
-  // console.log(titleOrAuthor);
+app.post('/searches/show', (req, res) => {
+  /*body for post -- get for query */
+  let book = req.body.hamza;
+  let titleOrAuthor = req.body.titleOrAuthor;
+  let url = `https://www.googleapis.com/books/v1/volumes?q=${book}+${titleOrAuthor}:${book}`;
 
-  let url =  `https://www.googleapis.com/books/v1/volumes?q=${book}+intitle`;
-
-  superAgent.get(url).then(result =>{
-    let bookArray = result.body.items.map(book =>{
+  superAgent.get(url)
+  .then(result => {
+    let bookArray = result.body.items.map(book => {
       return new BookWiki(book);
     });
-    res.send(bookArray); /*Render 10 books as Array-of-objects. |-----| If map was empty it will give us 10 null objects*/
-  });
+    res.render('pages/searches/show', { bookArr: bookArray }); /*Render 10 books as Array-of-objects. |-----| If map was empty it will give us 10 null objects*/
+  })
+  .catch(error => {
+    errorHandler(req, res)})
 
-
-
-
-
-
-
-
-  // superAgent.get(url).then(result =>{
-  //   let bodyData = result.body.items.map(book =>{
-  //     return new BookWiki(book);
-  //   });
-  //   // console.log(bodyData);
-  //   res.render('pages/searches/show',{booksArr: bodyData});
-  //   // res.send(bodyData);
-  // });
-
-  // console.log(bodyData);
-  // res.render('pages/searches/show',{booksArr: bodyData});
 });
 
-// console.log(req.body,'req.body');
-// console.log(res.body,'res.body');
-// console.log(req.query,'req.query');/*Worked*/
-// console.log(res.query,'res.query');
 
 // let allBook = [];
 function BookWiki(data) {
@@ -85,6 +61,15 @@ BookWiki.prototype.protocol = function (link) {
   return imageLink;
 };
 
+
+function errorHandler(request, response) {
+  response.render('pages/error')
+}
+
+
+
 app.listen(PORT, () => {
   console.log(`sever is up: PORT ${PORT}`);
 });
+
+app.use(errorHandler)
