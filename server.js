@@ -31,7 +31,9 @@ app.get('/searches/new', (req, res) => {
   res.render('pages/searches/new');
 });
 
-
+app.get('/books',(req,res) => {
+  console.log(req.body);
+})
 
 /*Render the data from the form */
 app.post('/searches/show', (req, res) => {

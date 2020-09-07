@@ -1,21 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book List</title>
-    <link rel="stylesheet" href="../../reset.css">
-    <link rel="stylesheet" href="../../layout.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book List</title>
+  <link rel="stylesheet" href="../../reset.css">
+  <link rel="stylesheet" href="../../layout.css">
 </head>
+
 <body>
   <% bookArr.forEach(b=> { %>
-    <div class="book-container">
-        <img src=<%= b.Image%>>
-        <h2 class="book-title"><%= b.Book_Title%></h2>
-        <p class="book-author"><%= b.Author_Name%></p>
-        <p class="book-desc"><%= b.Description%></p>
-        <button>Select this Book</button>
-        </div>
-  <% }) %>  
+  <div class="book-container">
+    <img src=<%= b.Image%>>
+    <h2 class="book-title"><%= b.Book_Title%></h2>
+    <p class="book-author"><%= b.Author_Name%></p>
+    <p class="book-desc"><%= b.Description%></p>
+    <form action="/book" method="POST"> <button>Select this Book</button>
+    </form>
+  </div>
+  <% }) %>
 </body>
+
 </html>
