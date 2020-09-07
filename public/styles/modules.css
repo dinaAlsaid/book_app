@@ -1,0 +1,13 @@
+.book-container{
+    width: 100%;
+    max-width: 500px;
+    margin: 20px;
+    padding:10px;
+    text-align:center;
+    box-sizing: border-box;
+
+}
+button{
+    background-color: black;
+    color: wheat;
+}

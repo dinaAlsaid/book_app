@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book List</title>
-    <link rel="stylesheet" href="../../reset.css">
-    <link rel="stylesheet" href="../../layout.css">
+  <%- include('../../layout/head')%>
 </head>
 <body>
-  <% bookArr.forEach(b=> { %>
-    <div class="book-container">
-        <img src=<%= b.Image%>>
-        <h2 class="book-title"><%= b.Book_Title%></h2>
-        <p class="book-author"><%= b.Author_Name%></p>
-        <p class="book-desc"><%= b.Description%></p>
-        <button>Select this Book</button>
-        </div>
-  <% }) %>  
+  <header>
+    <h1>Best Books!</h1>
+  </header>
+  <main>
+    <% bookArr.forEach(b=> { %>
+      <div class="book-container">
+          <img src=<%= b.Image%>>
+          <h2 class="book-title"><%= b.Book_Title%></h2>
+          <p class="book-author"><%= b.Author_Name%></p>
+          <p class="book-desc"><%= b.Description%></p>
+          <button>Select this Book</button>
+          </div>
+    <% }) %>  
+  
+  </main>
 </body>
 </html>

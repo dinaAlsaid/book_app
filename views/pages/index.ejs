@@ -1,25 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="../reset.css">
-    <link rel="stylesheet" href="../layout.css">
+    <%- include('../layout/head')%>
 </head>
 <body>
-    <h1>Welcome to my home page </h1>
-    <h1><%= savedArr.length %> Saved Books</h1>
-    <!-- <a href="/">home</a> -->
-    <a href="searches/new">Search for books</a>
+    <header>
+        <h1>Best Books!</h1>
+    </header>
+    <h2>Search by title or author </h2>
 
-    <% savedArr.forEach(b=> { %>
-        <div class="book-container">
-            <img src=<%= b.image_url%>>
-            <h2 class="book-title"><%= b.title%></h2>
-            <p class="book-author"><%= b.author%></p>
-            <button href="/book/<%= b.id%>">View details</button>
-        </div>
-      <% }) %>  
+    <main>
+        <h3><%= savedArr.length %> Saved Books</h3>
+        <a href="searches/new">Search for books</a>
+    
+        <% savedArr.forEach(b=> { %>
+            <div class="book-container">
+                <img src=<%= b.image_url%>>
+                <h2 class="book-title"><%= b.title%></h2>
+                <p class="book-author"><%= b.author%></p>
+                <button href="/book/<%= b.id%>" type="submit">View details</button> 
+            </div>
+          <% }) %>  
+    
+    </main>
 </body>
 </html>
