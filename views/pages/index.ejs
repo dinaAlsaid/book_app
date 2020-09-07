@@ -4,13 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <!-- <link rel="stylesheet" href="styles/base.css"> -->
+    <link rel="stylesheet" href="../reset.css">
+    <link rel="stylesheet" href="../layout.css">
 </head>
 <body>
     <h1>Welcome to my home page </h1>
+    <h1><%= savedArr.length %> Saved Books</h1>
     <!-- <a href="/">home</a> -->
     <a href="searches/new">Search for books</a>
 
-
+    <% savedArr.forEach(b=> { %>
+        <div class="book-container">
+            <img src=<%= b.image_url%>>
+            <h2 class="book-title"><%= b.title%></h2>
+            <p class="book-author"><%= b.author%></p>
+            <button>Select this Book</button>
+            </div>
+      <% }) %>  
 </body>
 </html>
