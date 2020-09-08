@@ -11,7 +11,20 @@
         <img src=<%= book.image_url%>>
         <h2 class="book-title"><%= book.title%></h2>
         <p class="book-author"><%= book.author%></p>
+        <p class="book-isbn"><%= book.isbn%></p>
         <p class="book-desc"><%= book.description%></p>
-        </div>
+        <p class="book-categ"><%= book.categories%></p>
+        <button id="UpdateBtn">Update</button>
+        <section id="updateDetailsForm">
+            <%- include('./edit')%>
+        </section>
+
+        <form action="/deleteBook/<%=book.id%>?_method=delete" method="post">
+            <button>Delete</button>
+        </form>
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="../../js/app.js"></script>
 </body>
 </html>
