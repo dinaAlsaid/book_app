@@ -1,23 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <%- include('../../layout/head')%>
 </head>
+
 <body>
   <header>
     <h1>Best Books!</h1>
   </header>
   <main>
     <% bookArr.forEach(b=> { %>
+      <form action="/books" method="post">
       <div class="book-container">
           <img src=<%= b.Image%>>
+          <input class="hidden-input" type="text" name="image" value="<%= b.Image%>">
           <h2 class="book-title"><%= b.Book_Title%></h2>
+          <input class="hidden-input" type="text" name="title" value="<%= b.Book_Title%>">
           <p class="book-author"><%= b.Author_Name%></p>
+          <input class="hidden-input" type="text" name="author" value="<%= b.Author_Name%>">
           <p class="book-desc"><%= b.Description%></p>
-          <button>Select this Book</button>
+          <input class="hidden-input" type="text" name="desc" value="<%= b.Description%>">
+          <input class="hidden-input" type="text" name="isbn" value="<%= b.isbn%>">
+          <input class="hidden-input" type="text" name="categories" value="<%= b.categories%>">
+
+          <button type="submit">Select this Book</button>
           </div>
+        </form>
     <% }) %>  
   
   </main>
 </body>
+
 </html>

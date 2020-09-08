@@ -16,11 +16,13 @@ app.get('/', mainRouteHandler);
 app.get('/searches/new', searchesNewHandler);
 app.post('/searches/show', searchesShowHandler);
 app.get('/book/:id', viewBook);
+app.post('/books', addBook);
 app.use(errorHandler);
 
 
 
 // call back functions
+
 function mainRouteHandler(req, res) {
   let sql = `SELECT * FROM books;`
   client.query(sql)
@@ -32,21 +34,34 @@ function mainRouteHandler(req, res) {
     })
 }
 
+function addBook(req,res) {
+  let {image,title, author, desc, isbn, categories} = req.body;
+  let SQL = `INSERT INTO books (author,title,isbn,image_url,description,categories) VALUES ($1,$2,$3,$4,$5,$6);`;
+  let safeValues = [author,title,isbn,image,desc,categories];
+  client.query(SQL,safeValues)
+  .then (() => {
+    res.redirect('/')
+  })
+
+}
+
 function searchesNewHandler(req, res) {
   res.render('pages/searches/new');
 }
 
 function viewBook(req, res) {
+  console.log('here');
+  console.log(req.params);
   let bookId = req.params.id;
   let safeValues = [bookId];
   let sql = 'SELECT * FROM books WHERE id=($1);'
-  console.log(bookId);
 
   client.query(sql, safeValues).then((results) => {
-    console.log(bookId);
-    res.render('pages/books/detail', { book: results })
+    console.log(results.rows[0]);
+    res.render('pages/books/detail', { book: results.rows[0] })
   })
     .catch(error => {
+      console.log('error');
       errorHandler(req, res)
     })
 }

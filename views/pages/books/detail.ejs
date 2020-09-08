@@ -3,7 +3,15 @@
 <head>
     <%- include('../../layout/head')%>
 </head>
+<header>
+    <a class="details-button" href="/">Return to books list</a>
+</header>
 <body>
-    <p>hello from detail.ejs</p>
+    <div class="book-container" style="margin-left:auto; margin-right: auto;">
+        <img src=<%= book.image_url%>>
+        <h2 class="book-title"><%= book.title%></h2>
+        <p class="book-author"><%= book.author%></p>
+        <p class="book-desc"><%= book.description%></p>
+        </div>
 </body>
 </html>
