@@ -20,8 +20,6 @@
             <img src=<%= b.image_url%>>
             <h2 class="book-title"><%= b.title%></h2>
             <p class="book-author"><%= b.author%></p>
-            <!-- <form action="/book/<%= b.id%>" method="post"> <button name="detailss" value="2" type="submit">View details</button>
-            </form> -->
             <a class="details-button" href="/book/<%=b.id%>">View Details</a>
         </div>
         <% }) %>

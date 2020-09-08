@@ -1,0 +1,13 @@
+<form action="/updateBook/<%=book.id%>?_method=put" method="POST">
+    <input type="text" class="book-title" name='title' value="<%= book.title%>">
+    <input type="text" class="book-author" name="author" value="<%= book.author%>">
+    <input type="text" class="book-isbn" name="isbn" value="<%= book.isbn%>">
+    <input type="text" class="book-desc" name="description" value="<%= book.description%>">
+    <!-- <input type="text" class="book-categ" value="<%= book.categories%>"> -->
+    <select name="categories" id="">
+        <% categ.forEach((item)=>{ %>
+            <option value="<%=item%>" name="<%=item%>" class="bookCateg"><%=item%></option>
+        <% }) %>
+    </select>
+    <button type="submit">Update Book</button>
+</form>
