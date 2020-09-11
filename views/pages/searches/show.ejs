@@ -6,9 +6,7 @@
 </head>
 
 <body>
-  <header>
-    <h1>Best Books!</h1>
-  </header>
+  <%- include('../../layout/header')%>
   <main>
     <% bookArr.forEach(b=> { %>
       <form action="/books" method="post">
@@ -30,6 +28,8 @@
     <% }) %>  
   
   </main>
+  <%- include('../../layout/footer')%>
+
 </body>
 
 </html>

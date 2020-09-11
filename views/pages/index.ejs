@@ -6,14 +6,12 @@
 </head>
 
 <body>
-    <header>
-        <h1>Best Books!</h1>
-    </header>
+    <%- include('../layout/header')%>
     <h2>Search by title or author </h2>
+    <h3><%= savedArr.length %> Saved Books</h3>
 
     <main>
-        <h3><%= savedArr.length %> Saved Books</h3>
-        <a href="searches/new">Search for books</a>
+        <a class="details-button" href="searches/new">Search for books</a>
 
         <% savedArr.forEach(b=> { %>
         <div class="book-container">
@@ -25,6 +23,8 @@
         <% }) %>
 
     </main>
+    <%- include('../layout/footer')%>
+
 </body>
 
 </html>

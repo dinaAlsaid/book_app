@@ -4,27 +4,30 @@
     <%- include('../../layout/head')%>
 </head>
 <body>
-    <header>
-        <h1>Best Books!</h1>
-    </header>
+    <%- include('../../layout/header')%>
     <main>
-        <form action="/searches/show" method="POST" >
-            <label >
-                <input type="text" name="hamza">
-            </label>
-            <br>
-            <label >
-                <span>Author:</span> 
-                <input type="radio" name='titleOrAuthor' value="inauthor">
-            </label>
-            <br>
-            <label >
-                <span>Title:</span> 
-                <input type="radio" name='titleOrAuthor' value="intitle">
-            </label>
-            <button type="submit">Search the googleBooks API</button>
-        </form>
+        <section>
+            <form action="/searches/show" method="POST" >
+                <label >
+                    <input type="text" name="hamza">
+                </label>
+                <br>
+                <label >
+                    <span>Author:</span> 
+                    <input type="radio" name='titleOrAuthor' value="inauthor">
+                </label>
+                <br>
+                <label >
+                    <span>Title:</span> 
+                    <input type="radio" name='titleOrAuthor' value="intitle">
+                </label>
+                <button type="submit">Search the googleBooks API</button>
+            </form>
+    
+        </section>
     
     </main>
+    <%- include('../../layout/footer')%>
+
 </body>
 </html>
