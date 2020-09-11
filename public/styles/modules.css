@@ -32,6 +32,36 @@ button{
     text-decoration: none;
     color: #ffffff;
     background-color: #7aa8b7;
-    border-radius: 6px;
     outline: none;
 }
+
+img#menu{
+    width: 30px;
+    height: 30px;
+}
+img#menu:hover{
+    cursor: pointer;
+    transform: scale(1.05);
+}
+#hamMenu{
+    display: none;
+    box-sizing: border-box;
+    position: fixed;
+    top:60px ;
+    right: 0px;
+    z-index: 50;
+    background-color: black;
+}
+#hamMenu a{
+    display: block;
+    text-decoration: none;
+    margin-top: 3% ;
+    color: white;
+
+}
+#hamMenu a:hover{
+    color: #7aa8b7;
+    cursor: pointer;
+    font:bolder;
+}
+

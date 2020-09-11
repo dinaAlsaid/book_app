@@ -86,9 +86,9 @@ function searchesShowHandler(req, res) {
       });
       res.render('pages/searches/show', { bookArr: bookArray }); /*Render 10 books as Array-of-objects. |-----| If map was empty it will give us 10 null objects*/
     })
-    .catch(error => {
-      errorHandler(req, res)
-    })
+    // .catch(error => {
+    //   errorHandler(req, res)
+    // })
 
 }
 
@@ -120,12 +120,12 @@ function errorHandler(request, response) {
 
 //constructor
 function BookWiki(data) {
-  this.Book_Title = data.volumeInfo.title || 'no title';
-  this.Author_Name = data.volumeInfo.authors|| 'no author';
-  this.Description = data.volumeInfo.description || 'no discreption avaialble';
+  this.Book_Title = data.volumeInfo.title? data.volumeInfo.title: 'no title';
+  this.Author_Name = data.volumeInfo.authors? data.volumeInfo.authors : 'no author';
+  this.Description = data.volumeInfo.description? data.volumeInfo.description : 'no discreption avaialble';
   this.Image = data.volumeInfo.imageLinks ? data.volumeInfo.imageLinks.smallThumbnail : `https://i.imgur.com/J5LVHEL.jpg`;
-  this.isbn = 'ISBN_13 ' + data.volumeInfo.industryIdentifiers[0].identifier || 'no isbn';
-  this.categories = data.volumeInfo.categories || 'no categories';
+  this.isbn = data.volumeInfo.industryIdentifiers[0].identifier? 'ISBN_13 ' + data.volumeInfo.industryIdentifiers[0].identifier : 'no isbn';
+  this.categories = data.volumeInfo.categories? data.volumeInfo.categories : 'no categories';
 
 
 }

@@ -1,4 +1,4 @@
-<form action="/updateBook/<%=book.id%>?_method=put" method="POST">
+<form action="/updateBook/<%=book.id%>?_method=put" method="POST" id="updateDetailsForm">
     <input type="text" class="book-title" name='title' value="<%= book.title%>">
     <input type="text" class="book-author" name="author" value="<%= book.author%>">
     <input type="text" class="book-isbn" name="isbn" value="<%= book.isbn%>">
@@ -9,5 +9,5 @@
             <option value="<%=item%>" name="<%=item%>" class="bookCateg"><%=item%></option>
         <% }) %>
     </select>
-    <button type="submit">Update Book</button>
+    <button id="updateBookBtn" type="submit">Update Book</button>
 </form>

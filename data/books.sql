@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS books(
     title VARCHAR(255),
     isbn VARCHAR(255) ,
     image_url VARCHAR(255),
-    description VARCHAR(1024),
+    description VARCHAR(2048),
     categories VARCHAR(255)
 );
 
